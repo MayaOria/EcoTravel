@@ -9,7 +9,8 @@ namespace ECOTRAVEL_COMMON.Repositories
 {
     public interface IClientRepository<TEntity, TId> : 
         IInsertRepository<TEntity, TId>,
-        IGetByIdRepository<TEntity, TId>
+        IGetByIdRepository<TEntity, TId>,
+        IUpdateRepository<TEntity, TId>
         where TEntity : IClient
     {
         

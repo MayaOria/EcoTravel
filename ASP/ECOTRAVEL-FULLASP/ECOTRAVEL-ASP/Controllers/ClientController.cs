@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ECOTRAVEL_ASP.Handlers;
+using ECOTRAVEL_ASP.Models.ClientViewModels;
+using ECOTRAVEL_BLL.Entities;
+using ECOTRAVEL_COMMON.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,16 +13,28 @@ namespace ECOTRAVEL_ASP.Controllers
 {
     public class ClientController : Controller
     {
+        #region injection de dépendances (services)
+        private readonly IClientRepository<Client, int> _services;
         // GET: ClientController
-        public ActionResult Index()
+
+        public ClientController(IClientRepository<Client, int> services)
         {
-            return View();
+            _services = services;
         }
+        #endregion
+
+        //public ActionResult Index()
+        //{
+        //    return View();
+        //}
 
         // GET: ClientController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            
+            ClientDetails model = _services.Get(id).ToDetails();
+            if (model is null) return null;
+            return View(model);
         }
 
         // GET: ClientController/Create
@@ -30,15 +46,19 @@ namespace ECOTRAVEL_ASP.Controllers
         // POST: ClientController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(ClientCreateForm form)
         {
-            try
+            if(!ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
+                form.Password = null;
+                form.ConfirmPass = null;
                 return View();
+            }
+
+            else
+            {
+                int id = _services.Insert(form.ToBLL());
+                return RedirectToAction("Details", new { id = id });
             }
         }
 
@@ -63,25 +83,6 @@ namespace ECOTRAVEL_ASP.Controllers
             }
         }
 
-        // GET: ClientController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ClientController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        
     }
 }

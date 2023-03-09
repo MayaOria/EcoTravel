@@ -28,7 +28,7 @@ namespace ECOTRAVEL_ASP
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            #region Injection de dépendances 
+            #region Injection de dépendances (préparation)
             services.AddScoped<IClientRepository<BLLEntities.Client, int>, BLLServices.ClientService>();
             services.AddScoped<IClientRepository<DALEntities.Client, int>, DALServices.ClientService>();
             #endregion

@@ -77,5 +77,31 @@ namespace ECOTRAVEL_DAL.Services
                 }
             }
         }
+
+        public bool Update(Client entity, int id)
+        {
+            using(SqlConnection connexion = new SqlConnection(ConnectionString))
+            {
+                using(SqlCommand command = connexion.CreateCommand())
+                {
+                    command.CommandText = @"UPDATE [Client]
+                                            SET [nom] = @nom
+                                                [prenom] = @prenom
+                                                [email] = @email
+                                                [isoPays] = @isoPays
+                                                [telephone] = @telephone
+                                            WHERE [idClient] = @id";
+                    command.Parameters.AddWithValue("nom", entity.Nom);
+                    command.Parameters.AddWithValue("prenom", entity.Prenom);
+                    command.Parameters.AddWithValue("email", entity.Email);
+                    command.Parameters.AddWithValue("isoPays", entity.IsoPays);
+                    command.Parameters.AddWithValue("telephone", entity.Telephone);
+                    command.Parameters.AddWithValue("id", id);
+                    connexion.Open();
+                    return command.ExecuteNonQuery() > 0;
+
+                }
+            }
+        }
     }
 }

@@ -21,6 +21,7 @@
     [idAdresse] INT NOT NULL, 
     [idClient] INT NOT NULL, 
     [dateAjout] DATE NOT NULL DEFAULT GETDATE(), 
+    [idTypeLogement] INT NOT NULL, 
     CONSTRAINT [PK_Logement] PRIMARY KEY ([idLogement]), 
     CONSTRAINT [CK_Logement_nom] CHECK (LEN ([nom]) >= 1 ),
     CONSTRAINT [CK_Logement_descriptionCourte] CHECK (LEN ([descriptionCourte]) >= 1 ),
@@ -32,6 +33,7 @@
      
     CONSTRAINT [FK_Logement_Adresse] FOREIGN KEY ([idAdresse]) REFERENCES [Adresse]([idAdresse]), 
     CONSTRAINT [FK_Logement_Proprietaire] FOREIGN KEY ([idClient]) REFERENCES [Proprietaire]([idClient]), 
-    CONSTRAINT [CK_Logement_dateAjout] CHECK ([dateAjout] >= GETDATE()),
+    CONSTRAINT [CK_Logement_dateAjout] CHECK ([dateAjout] >= GETDATE()), 
+    CONSTRAINT [FK_Logement_TypeLogement] FOREIGN KEY ([idTypeLogement]) REFERENCES [TypeLogement]([idTypeLogement]),
     
 )

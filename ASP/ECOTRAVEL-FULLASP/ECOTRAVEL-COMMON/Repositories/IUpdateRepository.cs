@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ECOTRAVEL_COMMON.Repositories
 {
-    public interface IUpdateRepository<TId, TEntity>
+    public interface IUpdateRepository<TEntity, TId>
     {
-        bool Update(TId id, TEntity entity);
+        bool Update(TEntity entity, TId id);
     }
 }

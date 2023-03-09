@@ -6,10 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Mappers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ECOTRAVEL-COMMON\ECOTRAVEL-COMMON.csproj" />
     <ProjectReference Include="..\ECOTRAVEL-DAL\ECOTRAVEL-DAL.csproj" />
   </ItemGroup>

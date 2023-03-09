@@ -9,7 +9,7 @@ namespace ECOTRAVEL_BLL.Entities
 {
     public class Client : IClient
     {
-        public int idClient { get; set; }
+        public int IdClient { get; set; }
         public string Nom { get; set; }
         public string Prenom { get; set; }
         public string Email { get; set; }
