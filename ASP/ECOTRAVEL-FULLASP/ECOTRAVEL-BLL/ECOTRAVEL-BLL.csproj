@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>ECOTRAVEL_BLL</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Mappers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ECOTRAVEL-COMMON\ECOTRAVEL-COMMON.csproj" />
+    <ProjectReference Include="..\ECOTRAVEL-DAL\ECOTRAVEL-DAL.csproj" />
+  </ItemGroup>
+
+</Project>

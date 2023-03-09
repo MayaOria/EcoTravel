@@ -79,8 +79,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="EcoTravel-Database.publish.xml" />
-    <None Include="EcoTravel-Database_1.publish.xml" />
-    <None Include="EcoTravel-Database_2.publish.xml" />
-    <None Include="EcoTravel-Database_3.publish.xml" />
   </ItemGroup>
 </Project>
