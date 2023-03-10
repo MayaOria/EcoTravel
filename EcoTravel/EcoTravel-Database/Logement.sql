@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Logement]
 (
 	[idLogement] INT NOT NULL IDENTITY, 
-    [nom] NVARCHAR(255) NOT NULL, 
+    [nom] NVARCHAR(50) NOT NULL, 
     [descriptionCourte] NVARCHAR(255) NOT NULL, 
     [descriptionLongue] NVARCHAR(MAX) NOT NULL, 
     [prixJournalier] MONEY NOT NULL DEFAULT 0, 

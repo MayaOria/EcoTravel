@@ -11,18 +11,17 @@ using System.Threading.Tasks;
 
 namespace ECOTRAVEL_DAL.Services
 {
-    public class ClientService : IClientRepository<Client, int>
+    public class ProprietaireService : IProprietaireRepository<Proprietaire, int>
     {
-        //Un BaseService sera créé et la connectionString sera déplacée dans le appsettings.json après la phase de test
         private string ConnectionString { get; set; } = @"Data Source=(Localdb)\MSSQLLocalDB;Initial Catalog=EcoTravel;Integrated Security=True";
-
         public int? CheckLogin(string email, string password)
         {
             using (SqlConnection connexion = new SqlConnection(ConnectionString))
             {
                 using (SqlCommand command = connexion.CreateCommand())
                 {
-                    command.CommandText = "SP_ClientCheckLogin";
+                    //Creer une procedure stockée SP_ProprietaireCheckLogin
+                    command.CommandText = "SP_ProprietaireCheckLogin";
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("email", email);
                     command.Parameters.AddWithValue("password", password);
@@ -33,14 +32,14 @@ namespace ECOTRAVEL_DAL.Services
             }
         }
 
-        public Client Get(int id)
+        public Proprietaire Get(int id)
         {
             using (SqlConnection connexion = new SqlConnection(ConnectionString))
             {
                 using (SqlCommand command = connexion.CreateCommand())
                 {
                     command.CommandText = @"SELECT [idClient], [nom], [prenom], [email], [isoPays], [telephone], [password]
-                                            FROM [Client]
+                                            FROM [Proprietaire]
                                             WHERE [idClient] = @id";
                     command.Parameters.AddWithValue("id", id);
                     connexion.Open();
@@ -48,7 +47,7 @@ namespace ECOTRAVEL_DAL.Services
                     {
                         if (reader.Read())
                         {
-                            return reader.ToClient();
+                            return reader.ToProprietaire();
                         }
                         return null;
                     }
@@ -56,12 +55,13 @@ namespace ECOTRAVEL_DAL.Services
             }
         }
 
-        public int Insert(Client entity)
+        public int Insert(Proprietaire entity)
         {
             using (SqlConnection connexion = new SqlConnection(ConnectionString))
             {
                 using (SqlCommand command = connexion.CreateCommand())
                 {
+                    //Créer SP_ProprietaireAdd
                     command.CommandText = "SP_ClientAdd";
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("nom", entity.Nom);
@@ -78,17 +78,17 @@ namespace ECOTRAVEL_DAL.Services
             }
         }
 
-        public bool Update(Client entity, int id)
+        public bool Update(Proprietaire entity, int id)
         {
-            using(SqlConnection connexion = new SqlConnection(ConnectionString))
+            using (SqlConnection connexion = new SqlConnection(ConnectionString))
             {
-                using(SqlCommand command = connexion.CreateCommand())
+                using (SqlCommand command = connexion.CreateCommand())
                 {
-                    command.CommandText = @"UPDATE [Client]
-                                            SET [nom] = @nom,
-                                                [prenom] = @prenom,
-                                                [email] = @email,
-                                                [isoPays] = @isoPays,
+                    command.CommandText = @"UPDATE [Proprietaire]
+                                            SET [nom] = @nom
+                                                [prenom] = @prenom
+                                                [email] = @email
+                                                [isoPays] = @isoPays
                                                 [telephone] = @telephone
                                             WHERE [idClient] = @id";
                     command.Parameters.AddWithValue("nom", entity.Nom);
@@ -100,6 +100,32 @@ namespace ECOTRAVEL_DAL.Services
                     connexion.Open();
                     return command.ExecuteNonQuery() > 0;
 
+                }
+            }
+        }
+
+
+        public IEnumerable<Proprietaire> GetByIdLogement(int idLogement)
+        {
+            using (SqlConnection connexion = new SqlConnection(ConnectionString))
+            {
+                using (SqlCommand command = connexion.CreateCommand())
+                {
+                    command.CommandText = @"SELECT [idClient], [nom], [prenom], [email], [isoPays], [telephone], [password]
+                                            FROM [Proprietaire]
+                                            JOIN [Logement]
+                                            ON [Logement].[idClient] = [Proprietaire].[idClient]
+                                            WHERE [idLogement] = @id";
+                    command.Parameters.AddWithValue("id", idLogement);
+                    connexion.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            yield return reader.ToProprietaire();
+                        }
+                       
+                    }
                 }
             }
         }

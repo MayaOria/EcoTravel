@@ -10,35 +10,30 @@ using DALEntities = ECOTRAVEL_DAL.Entities;
 
 namespace ECOTRAVEL_BLL.Services
 {
-    public class ClientService : IClientRepository<Client, int>
+    public class AdresseService : IAdresseRepository<Adresse, int>
     {
         #region Injection de dépendance (repositories)
-        private readonly IClientRepository<DALEntities.Client, int> _repository;
 
-        public ClientService(IClientRepository<DALEntities.Client, int> repository)
+        private readonly IAdresseRepository<DALEntities.Adresse, int> _repository;
+
+        public AdresseService(IAdresseRepository<DALEntities.Adresse, int> repository)
         {
             _repository = repository;
         }
         #endregion
-
-        public int? CheckLogin(string email, string password)
+        public IEnumerable<Adresse> Get()
         {
-            return _repository.CheckLogin(email, password);
+            return _repository.Get().Select(e => e.ToBLL());
         }
 
-        public Client Get(int id)
+        public Adresse Get(int id)
         {
             return _repository.Get(id).ToBLL();
         }
 
-        public int Insert(Client entity)
+        public int Insert(Adresse entity)
         {
             return _repository.Insert(entity.ToDAL());
-        }
-
-        public bool Update(Client entity, int id)
-        {
-            return _repository.Update(entity.ToDAL(), id);
         }
     }
 }

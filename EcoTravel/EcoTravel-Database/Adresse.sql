@@ -5,8 +5,9 @@
     [numero] NVARCHAR(50) NOT NULL, 
     [codePostal] NVARCHAR(50) NOT NULL, 
     [isoPays] CHAR(2) NOT NULL, 
-    [idCoordonnees] INT NOT NULL, 
+    [latitude] DECIMAL(10, 8) NOT NULL, 
+    [longitude] DECIMAL(11, 8) NOT NULL, 
     CONSTRAINT [PK_Adresse] PRIMARY KEY ([idAdresse]), 
     CONSTRAINT [CK_Adresse_rue] CHECK (LEN ([rue]) >= 1 ),
-    CONSTRAINT [FK_Adresse_Coordonnees] FOREIGN KEY ([idCoordonnees]) REFERENCES [Coordonnees]([idCoordonnees]),
+    
 )

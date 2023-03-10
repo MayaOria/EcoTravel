@@ -11,5 +11,7 @@ namespace ECOTRAVEL_COMMON.Repositories
         : IClientRepository<TEntity, TId>
         where TEntity : IProprietaire
     {
+        IEnumerable<TEntity> GetByIdLogement(TId idLogement);
+        //IEnumerable<TEntity> GetByIdReservation(Tid idReservation);
     }
 }

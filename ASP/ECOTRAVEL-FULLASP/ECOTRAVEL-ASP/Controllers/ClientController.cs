@@ -15,11 +15,13 @@ namespace ECOTRAVEL_ASP.Controllers
     {
         #region injection de dépendances (services)
         private readonly IClientRepository<Client, int> _services;
+        private readonly SessionManager _sessionManager;
         // GET: ClientController
 
-        public ClientController(IClientRepository<Client, int> services)
+        public ClientController(IClientRepository<Client, int> services, SessionManager sessionManager)
         {
             _services = services;
+            _sessionManager = sessionManager;
         }
         #endregion
 
@@ -60,6 +62,41 @@ namespace ECOTRAVEL_ASP.Controllers
                 int id = _services.Insert(form.ToBLL());
                 return RedirectToAction("Details", new { id = id });
             }
+        }
+
+        [HttpGet]
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public IActionResult Login(LoginForm form)
+        {
+            if (!ModelState.IsValid) return View();
+            int? id = _services.CheckLogin(form.Email, form.Password);
+            if (id == null) return View();
+            CurrentUser currentUser = new CurrentUser()
+            {
+                IdUser = (int)id,
+                Email = form.Email,
+                LastConnection = DateTime.Now
+            };
+
+            //Va enregistrer le currentUser dans la session grâce au set mis en place dans la propriété currentUser du Session Manager
+            _sessionManager.currentUser = currentUser;
+
+            return RedirectToAction("Index", "Home");
+
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: ClientController/Edit/5

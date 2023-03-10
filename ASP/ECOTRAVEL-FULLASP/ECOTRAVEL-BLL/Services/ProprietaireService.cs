@@ -1,5 +1,6 @@
 ﻿using ECOTRAVEL_BLL.Entities;
 using ECOTRAVEL_BLL.Mappers;
+using ECOTRAVEL_COMMON.Entities;
 using ECOTRAVEL_COMMON.Repositories;
 using System;
 using System.Collections.Generic;
@@ -10,33 +11,39 @@ using DALEntities = ECOTRAVEL_DAL.Entities;
 
 namespace ECOTRAVEL_BLL.Services
 {
-    public class ClientService : IClientRepository<Client, int>
+    public class ProprietaireService : IProprietaireRepository<Proprietaire, int>
     {
         #region Injection de dépendance (repositories)
-        private readonly IClientRepository<DALEntities.Client, int> _repository;
+        //Ajouter le service du logement quand il sera créé
+        //Ajouter le service de la réservation quand il sera créé
+        private readonly IProprietaireRepository<DALEntities.Proprietaire, int> _repository;
 
-        public ClientService(IClientRepository<DALEntities.Client, int> repository)
+        public ProprietaireService(IProprietaireRepository<DALEntities.Proprietaire, int> repository)
         {
             _repository = repository;
         }
         #endregion
-
         public int? CheckLogin(string email, string password)
         {
             return _repository.CheckLogin(email, password);
         }
 
-        public Client Get(int id)
+        public Proprietaire Get(int id)
         {
             return _repository.Get(id).ToBLL();
         }
 
-        public int Insert(Client entity)
+        public IEnumerable<Proprietaire> GetByIdLogement(int idLogement)
+        {
+            return _repository.GetByIdLogement(idLogement).Select(e => e.ToBLL());
+        }
+
+        public int Insert(Proprietaire entity)
         {
             return _repository.Insert(entity.ToDAL());
         }
 
-        public bool Update(Client entity, int id)
+        public bool Update(Proprietaire entity, int id)
         {
             return _repository.Update(entity.ToDAL(), id);
         }
