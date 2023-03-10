@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>ECOTRAVEL_ASP</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ECOTRAVEL-BLL\ECOTRAVEL-BLL.csproj" />
+    <ProjectReference Include="..\ECOTRAVEL-COMMON\ECOTRAVEL-COMMON.csproj" />
+    <ProjectReference Include="..\ECOTRAVEL-DAL\ECOTRAVEL-DAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+  </ItemGroup>
+
+</Project>
