@@ -27,7 +27,7 @@ namespace ECOTRAVEL_ASP.Models.LogementViewModels
         public string DescriptionLongue { get; set; }
         [Required]
         [DisplayName("Prix par jour : ")]
-        [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "Le champ doit être un nombre valide avec au maximum 2 décimales.")]
+        
         public decimal PrixJournalier { get; set; }
         [Required]
         [DisplayName("Nombre de chambre : ")]

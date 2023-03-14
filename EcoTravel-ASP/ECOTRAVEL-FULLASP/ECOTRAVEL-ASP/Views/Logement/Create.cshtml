@@ -1,8 +1,14 @@
-﻿@using ECOTRAVEL_ASP.Models.LogementViewModels
+﻿@inject ITypeLogementRepository<TypeLogement, int> _service
+@using ECOTRAVEL_ASP.Models.LogementViewModels
+@using ECOTRAVEL_BLL.Entities
+@using ECOTRAVEL_COMMON.Repositories
+@using ECOTRAVEL_ASP.Handlers
+@using ECOTRAVEL_ASP.Models.TypeLogementViewModels
+
 @model ECOTRAVEL_ASP.Models.LogementViewModels.LogementCreateForm
 
 @{
-    ViewData["Title"] = "Create";
+    IEnumerable<SelectListItem> typesLogement = _service.Get().Select(type => new SelectListItem { Text = type.Nom, Value = type.IdTypeLogement.ToString() });
 }
 
 <h1>Create</h1>
@@ -18,9 +24,9 @@
                 <input asp-for="Nom" class="form-control" />
                 <span asp-validation-for="Nom" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-                @Html.DropDownListFor(model => model.IdTypeLogement, Model.typeLogement.Select(type => new SelectListItem {Text = type.Nom, Value = type.IdTypeLogement.ToString()}), "Veuillez selectionner un type de logement" )
-            </div>*@
+            <div class="form-group">
+                @Html.DropDownListFor(model => model.IdTypeLogement, typesLogement, "Veuillez selectionner un type de logement" )
+            </div>
             <div class="form-group">
                 <label asp-for="DescriptionCourte" class="control-label"></label>
                 <input asp-for="DescriptionCourte" class="form-control" />

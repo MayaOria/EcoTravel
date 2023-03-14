@@ -87,7 +87,7 @@ namespace ECOTRAVEL_ASP.Controllers
             };
 
             //Va enregistrer le currentUser dans la session grâce au set mis en place dans la propriété currentUser du Session Manager
-            _sessionManager.currentUser = currentUser;
+            _sessionManager.CurrentUser = currentUser;
 
             return RedirectToAction("Index", "Home");
 

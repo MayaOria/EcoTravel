@@ -13,11 +13,12 @@ namespace ECOTRAVEL_ASP.Controllers
 
         private readonly ILogementRepository<Logement, int> _services;
         private readonly IProprietaireRepository<Proprietaire, int> _servicesProprietaire;
+        private readonly IClientRepository<Client, int> _servicesClient;
         private readonly ITypeLogementRepository<TypeLogement, int> _servicesTypeLogement;
         private readonly SessionManager _sessionManager;
 
         public LogementController(ILogementRepository<Logement, int> services,
-                ITypeLogementRepository<TypeLogement, int> servicesTypeLogement,            
+                ITypeLogementRepository<TypeLogement, int> servicesTypeLogement,            IClientRepository<Client, int> servicesClient,
                                     SessionManager sessionManager,
                                     IProprietaireRepository<Proprietaire, int> servicesProprietaire)
         {
@@ -42,9 +43,9 @@ namespace ECOTRAVEL_ASP.Controllers
         // GET: LogementController/Create
         public ActionResult Create()
         {
+            
             LogementCreateForm model = new LogementCreateForm();
-            //Je n'ai pas réussi à faire le cast pour que cela fonctionne...
-            //model.typeLogement = (List<TypeLogement>)_servicesTypeLogement.Get();
+            model.IdClient = _sessionManager.CurrentUser.IdUser;
             return View(model);
         }
 
@@ -61,11 +62,23 @@ namespace ECOTRAVEL_ASP.Controllers
            
             else
             {
-                model.IdClient = _sessionManager.currentUser.IdUser;
-                if(_servicesProprietaire.Get(model.IdClient) is null)
-                {
-                    //Creer le proprietaire
-                }
+                
+                
+                    Client client = _servicesClient.Get(model.IdClient);
+                    Proprietaire proprietaire = new Proprietaire()
+                    {
+                        IdClient = client.IdClient,
+                        Nom = client.Nom,
+                        Prenom = client.Prenom,
+                        IsoPays = client.IsoPays,
+                        Telephone = client.Telephone,
+                        Email = client.Email,
+                        Password = client.Password
+                    };
+
+                
+                    _servicesProprietaire.Insert(proprietaire);
+                
                 int id = _services.Insert(model.ToBLL());
                 return RedirectToAction("Details", "Logement", new { id = id });
             }

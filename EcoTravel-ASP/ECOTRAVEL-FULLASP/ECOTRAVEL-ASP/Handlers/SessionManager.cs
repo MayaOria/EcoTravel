@@ -12,11 +12,11 @@ namespace ECOTRAVEL_ASP.Handlers
             _session = accessor.HttpContext.Session;
         }
 
-        public CurrentUser currentUser
+        public CurrentUser CurrentUser
         {
             get
             {
-                string data = _session.GetString(nameof(currentUser));
+                string data = _session.GetString(nameof(CurrentUser));
                 if (data is null) return null;
                 return JsonSerializer.Deserialize<CurrentUser>(data);
             }
